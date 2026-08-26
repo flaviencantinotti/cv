@@ -1,0 +1,13 @@
+# Système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Éditeurs
+.vscode/
+.idea/
+*.code-workspace
+
+# Environnement
+.env
+*.log

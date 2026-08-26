@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flavien Cantinotti — Portfolio</title>
+<meta name="description" content="Flavien Cantinotti — développeur web. HTML/CSS, JavaScript, PHP, WordPress.">
+<meta name="theme-color" content="#000000">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <span class="loader__num" id="loaderNum">0</span>
+    <span class="loader__pct">%</span>
+  </div>
+  <div class="loader__bar"><span id="loaderBar"></span></div>
+</div>
+
+<!-- ============ CURSEUR ============ -->
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <a href="#hero" class="header__logo glow" data-cursor="link">FC<span class="header__dot">.</span></a>
+
+  <nav class="nav" id="nav" aria-label="Navigation principale">
+    <ul class="nav__list">
+      <li><a href="#about"    class="nav__link" data-cursor="link">À propos</a></li>
+      <li><a href="#competences" class="nav__link" data-cursor="link">Compétences</a></li>
+      <li><a href="#work"     class="nav__link" data-cursor="link">Projets</a></li>
+      <li><a href="#contact"  class="nav__link" data-cursor="link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+    <span></span><span></span>
+  </button>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero__grid" aria-hidden="true"></div>
+
+    <div class="wrap">
+      <p class="hero__eyebrow reveal">Disponible à partir de novembre 2026</p>
+
+      <h1 class="hero__title">
+        <span class="line"><span class="line__in">Flavien</span></span>
+        <span class="line"><span class="line__in caps">CANTINOTTI</span></span>
+      </h1>
+
+      <div class="hero__meta reveal">
+        <p class="hero__role" id="typewriter" aria-live="polite"></p>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="rule" data-rule>
+
+  <!-- ============ À PROPOS ============ -->
+  <section class="section" id="about">
+    <div class="wrap section__grid">
+      <div class="section__head">
+        <h2 class="section__title reveal">À propos</h2>
+      </div>
+
+      <div class="section__body">
+        <p class="lead reveal">
+          Développeur web à Besançon. Je code des sites sur mesure,
+          du HTML à la base de données.
+        </p>
+        <ol class="path reveal">
+          <li class="path__step">
+            <span class="path__when">Depuis 2013</span>
+            <p class="path__what">Douze ans en logistique, dont huit chez U Logistique&nbsp;:
+            préparation de commandes, cariste, expédition, réception. Toujours sous
+            contrat, en projet de transition professionnelle depuis mars 2026.</p>
+          </li>
+          <li class="path__step">
+            <span class="path__when">Le déclic</span>
+            <p class="path__what">J'ai effectué un bilan de compétences. J'y ai découvert
+            plein de métiers intéressants. Après quelques enquêtes terrain, podcasts,
+            vidéos, j'étais piqué. C'était le développement web.</p>
+          </li>
+          <li class="path__step">
+            <span class="path__when">2026 — en cours</span>
+            <p class="path__what">Formation Développement web et web mobile chez
+            Formagraph Design, à Besançon, jusqu'en novembre 2026, avec un stage
+            chez Wooplee. Je recherche mon premier poste, en CDI ou en CDD.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" data-rule>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section" id="competences">
+    <div class="wrap section__grid">
+      <div class="section__head">
+        <h2 class="section__title reveal">Compétences</h2>
+      </div>
+
+      <div class="section__body">
+        <ul class="services">
+          <li class="service reveal" data-cursor="link">
+            <h3 class="service__name">HTML &amp; CSS</h3>
+            <p class="service__desc">Intégration d'une maquette en page fidèle, responsive et accessible. Flexbox, grid, animations CSS.</p>
+          </li>
+          <li class="service reveal" data-cursor="link">
+            <h3 class="service__name">JavaScript</h3>
+            <p class="service__desc">Manipulation du DOM, événements, formulaires dynamiques.</p>
+          </li>
+          <li class="service reveal" data-cursor="link">
+            <h3 class="service__name">PHP</h3>
+            <p class="service__desc">Traitement de formulaires, logique côté serveur, sessions et authentification.</p>
+          </li>
+          <li class="service reveal" data-cursor="link">
+            <h3 class="service__name">MySQL</h3>
+            <p class="service__desc">Modélisation d'un schéma relationnel, requêtes SQL, requêtes préparées.</p>
+          </li>
+          <li class="service reveal" data-cursor="link">
+            <h3 class="service__name">WordPress</h3>
+            <p class="service__desc">Installation, thèmes, gestion des contenus et du back-office.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" data-rule>
+
+  <!-- ============ PROJETS ============ -->
+  <section class="section" id="work">
+    <div class="wrap section__grid">
+      <div class="section__head">
+        <h2 class="section__title reveal">Projets</h2>
+      </div>
+
+      <div class="section__body">
+        <!-- Pour ajouter un projet : dupliquez un <li class="project"> ci-dessous.
+             TODO : renseignez le href et vérifiez les technos indiquées. -->
+        <ul class="projects">
+          <li class="project reveal">
+            <a href="https://github.com/flaviencantinotti-ship-it/cinevo" target="_blank" rel="noopener" class="project__link" data-cursor="view">
+              <h3 class="project__name">Cinévo</h3>
+              <span class="project__tag">HTML/CSS · JavaScript · PHP</span>
+              <span class="project__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li class="project reveal">
+            <a href="https://github.com/flaviencantinotti-ship-it/RucherElsa" target="_blank" rel="noopener" class="project__link" data-cursor="view">
+              <h3 class="project__name">Le Rucher d'Elsa <em class="project__flag">Projet fictif</em></h3>
+              <span class="project__tag">WordPress</span>
+              <span class="project__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" data-rule>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section section--contact" id="contact">
+    <div class="wrap section__grid">
+      <div class="section__head">
+        <h2 class="section__title reveal">Contact</h2>
+      </div>
+
+      <div class="section__body">
+        <p class="lead reveal">Un nouveau projet&nbsp;? Écrivez-moi.</p>
+
+        <a href="mailto:flavien.cantinotti@gmail.com" class="mailto reveal glow" data-cursor="link">
+          flavien.cantinotti@gmail.com
+        </a>
+
+        <ul class="socials reveal">
+          <li><a href="https://github.com/flaviencantinotti-ship-it" target="_blank" rel="noopener" data-cursor="link">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/flavien-cantinotti/" target="_blank" rel="noopener" data-cursor="link">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<hr class="rule" data-rule>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer__in">
+    <span>&copy; <span id="year"></span> Flavien Cantinotti</span>
+    <span class="footer__clock">Besançon — <span id="clock">--:--:--</span></span>
+    <a href="#hero" class="footer__top" data-cursor="link">Haut de page ↑</a>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
