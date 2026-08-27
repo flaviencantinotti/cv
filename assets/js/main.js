@@ -278,8 +278,53 @@
     setInterval(tick, 1000);
   }
 
+
   /* -------------------------------------------------------
-     8. Démarrage
+     8. Aperçus de projets — l'image suit le curseur
+     ------------------------------------------------------- */
+  function initProjectPreviews() {
+    const list = $(".projects");
+    if (!list || !finePointer) return;   // sur mobile, le CSS place l'image dans le flux
+
+    list.classList.add("has-preview");
+
+    $$(".project", list).forEach((item) => {
+      const link = $(".project__link", item);
+      const shot = $(".project__shot", item);
+      if (!link || !shot) return;
+
+      let x = 0, y = 0, tx = 0, ty = 0, running = false;
+
+      const follow = () => {
+        // même retard que le curseur : l'image traîne au lieu de coller
+        tx += (x - tx) * 0.14;
+        ty += (y - ty) * 0.14;
+        shot.style.left = tx + "px";
+        shot.style.top  = ty + "px";
+        if (running) requestAnimationFrame(follow);
+      };
+
+      link.addEventListener("mouseenter", (e) => {
+        x = tx = e.clientX;
+        y = ty = e.clientY;
+        shot.classList.add("is-visible");
+        if (!running) { running = true; requestAnimationFrame(follow); }
+      });
+
+      link.addEventListener("mousemove", (e) => {
+        x = e.clientX;
+        y = e.clientY;
+      }, { passive: true });
+
+      link.addEventListener("mouseleave", () => {
+        running = false;
+        shot.classList.remove("is-visible");
+      });
+    });
+  }
+
+  /* -------------------------------------------------------
+     9. Démarrage
      ------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', () => {
     initCursor();
@@ -288,6 +333,7 @@
     initHeader();
     initMenu();
     initClock();
+    initProjectPreviews();
 
     runLoader(revealHero);
   });

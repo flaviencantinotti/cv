@@ -625,3 +625,60 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
   .reveal,.line__in{ opacity:1; transform:none; }
   .rule{ transform:scaleX(1); }
 }
+
+/* ---------- 16. Aperçus de projets ----------
+   Sur grand écran, la capture flotte près du curseur : la liste reste nue,
+   l'image n'apparaît qu'à l'intention. Sur mobile, elle rejoint le flux. */
+.project__shot{
+  position:fixed; top:0; left:0; z-index:40;
+  width:clamp(280px,26vw,430px);
+  height:auto;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.6),
+    0 0 24px rgba(255,255,255,.18),
+    0 0 70px rgba(255,255,255,.07),
+    0 30px 60px rgba(0,0,0,.75);
+  opacity:0;
+  transform:translate3d(-50%,-50%,0) scale(.94);
+  transition:opacity .45s var(--ease), transform .55s var(--ease-out);
+  will-change:transform,opacity;
+}
+.project__shot.is-visible{
+  opacity:1;
+  transform:translate3d(-50%,-50%,0) scale(1);
+}
+
+/* Le nom recule légèrement pour laisser l'image occuper le regard */
+.projects.has-preview .project__link .project__name{
+  opacity:.35;
+  transition:opacity .45s var(--ease), text-shadow .45s var(--ease);
+}
+.projects.has-preview .project__link:hover .project__name{ opacity:1; }
+
+@media (max-width:860px),(hover:none),(pointer:coarse){
+  /* Sans survol possible, la capture rejoint le flux.
+     Flex plutôt que grille : l ordre des lignes reste prévisible. */
+  .project__link{
+    display:flex; flex-wrap:wrap; align-items:center;
+    gap:14px 16px;
+  }
+  .project__name { flex:1 1 auto; order:1; }
+  .project__arrow{ flex:0 0 auto; order:2; opacity:1; transform:none; }
+  .project__tag  { flex:1 1 100%; order:3; text-align:left; }
+  .project__shot{
+    order:4; flex:1 1 100%;
+    position:static;
+    width:100%;
+    opacity:1;
+    transform:none;
+    border-color:rgba(255,255,255,.16);
+    box-shadow:0 0 18px rgba(255,255,255,.10);
+  }
+  .projects.has-preview .project__link .project__name{ opacity:1; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .project__shot{ transition:opacity .001ms; }
+}
