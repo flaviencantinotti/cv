@@ -1,8 +1,8 @@
-# Portfolio
+# CV en ligne
 
 Mon site vitrine : présentation, parcours, compétences et réalisations.
 
-En ligne : **https://flaviencantinotti-ship-it.github.io/portfolio/**
+En ligne : **https://flaviencantinotti-ship-it.github.io/cv/**
 
 ## Le parti pris
 
@@ -34,7 +34,7 @@ HTML, CSS, JavaScript. Polices Inter et JetBrains Mono via Google Fonts.
 ## Structure
 
 ```
-Portfolio/
+cv/
 ├── index.html
 └── assets/
     ├── css/style.css
