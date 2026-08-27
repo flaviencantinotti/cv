@@ -497,11 +497,11 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
   transform:translate3d(-50%,-50%,0) scale(1);
 }
 
-.projets.avec-apercu .projet__lien .projet__nom{
-  opacity:.35;
+.projets.avec-apercu .projet__nom{
   transition:opacity .45s var(--transition), text-shadow .45s var(--transition);
 }
-.projets.avec-apercu .projet__lien:hover .projet__nom{ opacity:1; }
+.projets.avec-apercu:hover .projet__lien .projet__nom{ opacity:.35; }
+.projets.avec-apercu:hover .projet__lien:hover .projet__nom{ opacity:1; }
 
 .adresse-mail{
   display:inline-block;
@@ -640,7 +640,6 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
     border-color:rgba(255,255,255,.16);
     box-shadow:0 0 18px rgba(255,255,255,.10);
   }
-  .projets.avec-apercu .projet__lien .projet__nom{ opacity:1; }
 }
 
 @media (prefers-reduced-motion:reduce){
