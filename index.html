@@ -11,92 +11,87 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/style.css?v=4">
+<link rel="stylesheet" href="assets/css/style.css?v=5">
 </head>
 <body>
 
-<!-- ============ PRELOADER ============ -->
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__inner">
-    <span class="loader__num" id="loaderNum">0</span>
-    <span class="loader__pct">%</span>
+<div class="chargement" id="chargement" aria-hidden="true">
+  <div class="chargement__compteur">
+    <span class="chargement__nombre" id="chargementNombre">0</span>
+    <span class="chargement__pourcent">%</span>
   </div>
-  <div class="loader__bar"><span id="loaderBar"></span></div>
+  <div class="chargement__barre"><span id="chargementBarre"></span></div>
 </div>
 
-<!-- ============ CURSEUR ============ -->
-<div class="cursor" id="cursor" aria-hidden="true"></div>
-<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="curseur" id="curseur" aria-hidden="true"></div>
+<div class="curseur-point" id="curseurPoint" aria-hidden="true"></div>
 
-<!-- ============ HEADER ============ -->
-<header class="header" id="header">
-  <a href="#hero" class="header__logo glow" data-cursor="link">FC<span class="header__dot">.</span></a>
+<header class="entete" id="entete">
+  <a href="#accueil" class="entete__logo halo" data-curseur="lien">FC<span class="entete__point">.</span></a>
 
-  <nav class="nav" id="nav" aria-label="Navigation principale">
-    <ul class="nav__list">
-      <li><a href="#about"    class="nav__link" data-cursor="link">À propos</a></li>
-      <li><a href="#competences" class="nav__link" data-cursor="link">Compétences</a></li>
-      <li><a href="#work"     class="nav__link" data-cursor="link">Projets</a></li>
-      <li><a href="#contact"  class="nav__link" data-cursor="link">Contact</a></li>
+  <nav class="menu" id="menu" aria-label="Navigation principale">
+    <ul class="menu__liste">
+      <li><a href="#a-propos"    class="menu__lien" data-curseur="lien">À propos</a></li>
+      <li><a href="#competences" class="menu__lien" data-curseur="lien">Compétences</a></li>
+      <li><a href="#projets"     class="menu__lien" data-curseur="lien">Projets</a></li>
+      <li><a href="#contact"     class="menu__lien" data-curseur="lien">Contact</a></li>
     </ul>
   </nav>
 
-  <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+  <button class="bouton-menu" id="boutonMenu" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
     <span></span><span></span>
   </button>
 </header>
 
 <main>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero" id="hero">
-    <div class="hero__grid" aria-hidden="true"></div>
+  <section class="accueil" id="accueil">
+    <div class="accueil__halo" aria-hidden="true"></div>
 
-    <div class="wrap">
-      <p class="hero__eyebrow reveal">Disponible à partir de novembre 2026</p>
+    <div class="conteneur">
+      <p class="accueil__statut apparition">Disponible à partir de novembre 2026</p>
 
-      <h1 class="hero__title">
-        <span class="line"><span class="line__in">Flavien</span></span>
-        <span class="line"><span class="line__in caps">CANTINOTTI</span></span>
+      <h1 class="accueil__titre">
+        <span class="ligne"><span class="ligne__interieur">Flavien</span></span>
+        <span class="ligne"><span class="ligne__interieur majuscules">CANTINOTTI</span></span>
       </h1>
 
-      <div class="hero__meta reveal">
-        <p class="hero__role" id="typewriter" aria-live="polite"></p>
+      <div class="accueil__infos apparition">
+        <p class="accueil__role" id="roleAnime" aria-live="polite"></p>
       </div>
     </div>
 
   </section>
 
-  <hr class="rule" data-rule>
+  <hr class="separateur" data-separateur>
 
-  <!-- ============ À PROPOS ============ -->
-  <section class="section" id="about">
-    <div class="wrap section__grid">
-      <div class="section__head">
-        <h2 class="section__title reveal">À propos</h2>
+  <section class="section" id="a-propos">
+    <div class="conteneur section__grille">
+      <div class="section__entete">
+        <h2 class="section__titre apparition">À propos</h2>
       </div>
 
-      <div class="section__body">
-        <p class="lead reveal">
+      <div class="section__contenu">
+        <p class="accroche apparition">
           Développeur web à Besançon. Je code des sites sur mesure,
           du HTML à la base de données.
         </p>
-        <ol class="path reveal">
-          <li class="path__step">
-            <span class="path__when">Depuis 2013</span>
-            <p class="path__what">Douze ans en logistique, dont huit chez U Logistique&nbsp;:
+        <ol class="parcours apparition">
+          <li class="parcours__etape">
+            <span class="parcours__date">Depuis 2013</span>
+            <p class="parcours__texte">Douze ans en logistique, dont huit chez U Logistique&nbsp;:
             préparation de commandes, cariste, expédition, réception. Toujours sous
             contrat, en projet de transition professionnelle depuis mars 2026.</p>
           </li>
-          <li class="path__step">
-            <span class="path__when">Le déclic</span>
-            <p class="path__what">J'ai effectué un bilan de compétences. J'y ai découvert
+          <li class="parcours__etape">
+            <span class="parcours__date">Le déclic</span>
+            <p class="parcours__texte">J'ai effectué un bilan de compétences. J'y ai découvert
             plein de métiers intéressants. Après quelques enquêtes terrain, podcasts,
             vidéos, j'étais piqué. C'était le développement web.</p>
           </li>
-          <li class="path__step">
-            <span class="path__when">2026 — en cours</span>
-            <p class="path__what">Formation Développement web et web mobile chez
+          <li class="parcours__etape">
+            <span class="parcours__date">2026 — en cours</span>
+            <p class="parcours__texte">Formation Développement web et web mobile chez
             Formagraph Design, à Besançon, jusqu'en novembre 2026, avec un stage
             chez Wooplee. Je recherche mon premier poste, en CDI ou en CDD.</p>
           </li>
@@ -105,70 +100,65 @@
     </div>
   </section>
 
-  <hr class="rule" data-rule>
+  <hr class="separateur" data-separateur>
 
-  <!-- ============ SERVICES ============ -->
   <section class="section" id="competences">
-    <div class="wrap section__grid">
-      <div class="section__head">
-        <h2 class="section__title reveal">Compétences</h2>
+    <div class="conteneur section__grille">
+      <div class="section__entete">
+        <h2 class="section__titre apparition">Compétences</h2>
       </div>
 
-      <div class="section__body">
-        <ul class="services">
-          <li class="service reveal" data-cursor="link">
-            <h3 class="service__name">HTML &amp; CSS</h3>
-            <p class="service__desc">Intégration d'une maquette en page fidèle, responsive et accessible. Flexbox, grid, animations CSS.</p>
+      <div class="section__contenu">
+        <ul class="competences">
+          <li class="competence apparition" data-curseur="lien">
+            <h3 class="competence__nom">HTML &amp; CSS</h3>
+            <p class="competence__detail">Intégration d'une maquette en page fidèle, responsive et accessible. Flexbox, grid, animations CSS.</p>
           </li>
-          <li class="service reveal" data-cursor="link">
-            <h3 class="service__name">JavaScript</h3>
-            <p class="service__desc">Manipulation du DOM, événements, formulaires dynamiques.</p>
+          <li class="competence apparition" data-curseur="lien">
+            <h3 class="competence__nom">JavaScript</h3>
+            <p class="competence__detail">Manipulation du DOM, événements, formulaires dynamiques.</p>
           </li>
-          <li class="service reveal" data-cursor="link">
-            <h3 class="service__name">PHP</h3>
-            <p class="service__desc">Traitement de formulaires, logique côté serveur, sessions et authentification.</p>
+          <li class="competence apparition" data-curseur="lien">
+            <h3 class="competence__nom">PHP</h3>
+            <p class="competence__detail">Traitement de formulaires, logique côté serveur, sessions et authentification.</p>
           </li>
-          <li class="service reveal" data-cursor="link">
-            <h3 class="service__name">MySQL</h3>
-            <p class="service__desc">Modélisation d'un schéma relationnel, requêtes SQL, requêtes préparées.</p>
+          <li class="competence apparition" data-curseur="lien">
+            <h3 class="competence__nom">MySQL</h3>
+            <p class="competence__detail">Modélisation d'un schéma relationnel, requêtes SQL, requêtes préparées.</p>
           </li>
-          <li class="service reveal" data-cursor="link">
-            <h3 class="service__name">WordPress</h3>
-            <p class="service__desc">Installation, thèmes, gestion des contenus et du back-office.</p>
+          <li class="competence apparition" data-curseur="lien">
+            <h3 class="competence__nom">WordPress</h3>
+            <p class="competence__detail">Installation, thèmes, gestion des contenus et du back-office.</p>
           </li>
         </ul>
       </div>
     </div>
   </section>
 
-  <hr class="rule" data-rule>
+  <hr class="separateur" data-separateur>
 
-  <!-- ============ PROJETS ============ -->
-  <section class="section" id="work">
-    <div class="wrap section__grid">
-      <div class="section__head">
-        <h2 class="section__title reveal">Projets</h2>
+  <section class="section" id="projets">
+    <div class="conteneur section__grille">
+      <div class="section__entete">
+        <h2 class="section__titre apparition">Projets</h2>
       </div>
 
-      <div class="section__body">
-        <!-- Pour ajouter un projet : dupliquez un <li class="project"> ci-dessous.
-             La capture (.project__shot) sert d'aperçu flottant sur grand écran,
-             et s'affiche dans le flux sur mobile. -->
-        <ul class="projects">
-          <li class="project reveal">
-            <a href="https://github.com/flaviencantinotti-ship-it/cinevo" target="_blank" rel="noopener" class="project__link" data-cursor="view">
-              <h3 class="project__name">Cinévo</h3>
-              <img class="project__shot" src="assets/img/cinevo.jpg?v=3" alt="Page d'accueil de Cinévo" loading="lazy" width="1200" height="750">
-              <span class="project__tag">HTML/CSS · JavaScript · PHP</span>
-              <span class="project__arrow" aria-hidden="true">↗</span>
+      <div class="section__contenu">
+        <ul class="projets">
+          <li class="projet apparition">
+            <a href="https://github.com/flaviencantinotti-ship-it/cinevo" target="_blank" rel="noopener" class="projet__lien" data-curseur="projet">
+              <h3 class="projet__nom">Cinévo</h3>
+              <img class="projet__capture" src="assets/img/cinevo.jpg?v=3" alt="Page d'accueil de Cinévo" loading="lazy" width="1200" height="750">
+              <span class="projet__techno">HTML/CSS · JavaScript · PHP</span>
+              <span class="projet__fleche" aria-hidden="true">↗</span>
             </a>
           </li>
-          <li class="project reveal">
-            <a href="https://github.com/flaviencantinotti-ship-it/RucherElsa" target="_blank" rel="noopener" class="project__link" data-cursor="view">
-              <h3 class="project__name">Le Rucher d'Elsa <em class="project__flag">Projet fictif</em></h3>
-              <img class="project__shot" src="assets/img/rucher-elsa.jpg?v=3" alt="Page d'accueil du Rucher d'Elsa" loading="lazy" width="1200" height="750">
-              <span class="project__tag">WordPress</span>
-              <span class="project__arrow" aria-hidden="true">↗</span>
+          <li class="projet apparition">
+            <a href="https://github.com/flaviencantinotti-ship-it/RucherElsa" target="_blank" rel="noopener" class="projet__lien" data-curseur="projet">
+              <h3 class="projet__nom">Le Rucher d'Elsa <em class="projet__mention">Projet fictif</em></h3>
+              <img class="projet__capture" src="assets/img/rucher-elsa.jpg?v=3" alt="Page d'accueil du Rucher d'Elsa" loading="lazy" width="1200" height="750">
+              <span class="projet__techno">WordPress</span>
+              <span class="projet__fleche" aria-hidden="true">↗</span>
             </a>
           </li>
         </ul>
@@ -176,25 +166,24 @@
     </div>
   </section>
 
-  <hr class="rule" data-rule>
+  <hr class="separateur" data-separateur>
 
-  <!-- ============ CONTACT ============ -->
-  <section class="section section--contact" id="contact">
-    <div class="wrap section__grid">
-      <div class="section__head">
-        <h2 class="section__title reveal">Contact</h2>
+  <section class="section" id="contact">
+    <div class="conteneur section__grille">
+      <div class="section__entete">
+        <h2 class="section__titre apparition">Contact</h2>
       </div>
 
-      <div class="section__body">
-        <p class="lead reveal">Mon profil vous intéresse&nbsp;? Écrivez-moi.</p>
+      <div class="section__contenu">
+        <p class="accroche apparition">Mon profil vous intéresse&nbsp;? Écrivez-moi.</p>
 
-        <a href="mailto:flavien.cantinotti@gmail.com" class="mailto reveal glow" data-cursor="link">
+        <a href="mailto:flavien.cantinotti@gmail.com" class="adresse-mail apparition halo" data-curseur="lien">
           flavien.cantinotti@gmail.com
         </a>
 
-        <ul class="socials reveal">
-          <li><a href="https://github.com/flaviencantinotti-ship-it" target="_blank" rel="noopener" data-cursor="link">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/flavien-cantinotti/" target="_blank" rel="noopener" data-cursor="link">LinkedIn</a></li>
+        <ul class="reseaux apparition">
+          <li><a href="https://github.com/flaviencantinotti-ship-it" target="_blank" rel="noopener" data-curseur="lien">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/flavien-cantinotti/" target="_blank" rel="noopener" data-curseur="lien">LinkedIn</a></li>
         </ul>
       </div>
     </div>
@@ -202,17 +191,16 @@
 
 </main>
 
-<hr class="rule" data-rule>
+<hr class="separateur" data-separateur>
 
-<!-- ============ FOOTER ============ -->
-<footer class="footer">
-  <div class="wrap footer__in">
-    <span>&copy; <span id="year"></span> Flavien Cantinotti</span>
-    <span class="footer__clock">Besançon — <span id="clock">--:--:--</span></span>
-    <a href="#hero" class="footer__top" data-cursor="link">Haut de page ↑</a>
+<footer class="pied">
+  <div class="conteneur pied__contenu">
+    <span>&copy; <span id="annee"></span> Flavien Cantinotti</span>
+    <span class="pied__heure">Besançon — <span id="heure">--:--:--</span></span>
+    <a href="#accueil" class="pied__haut" data-curseur="lien">Haut de page ↑</a>
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=4"></script>
+<script src="assets/js/main.js?v=5"></script>
 </body>
 </html>

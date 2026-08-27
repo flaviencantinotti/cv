@@ -1,340 +1,314 @@
-/* =========================================================
-   Anna Green — site vitrine
-   Vanilla JS, sans dépendance.
-   ========================================================= */
 (() => {
   'use strict';
 
-  const $  = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+  const selectionner     = (selecteur, racine = document) => racine.querySelector(selecteur);
+  const selectionnerTous = (selecteur, racine = document) => [...racine.querySelectorAll(selecteur)];
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const animationsReduites = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pointeurPrecis     = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  /* -------------------------------------------------------
-     1. Préchargeur — compteur 0 → 100
-     ------------------------------------------------------- */
-  const loader    = $('#loader');
-  const loaderNum = $('#loaderNum');
-  const loaderBar = $('#loaderBar');
+  function lancerChargement(surFin) {
+    const ecran  = selectionner('#chargement');
+    const nombre = selectionner('#chargementNombre');
+    const barre  = selectionner('#chargementBarre');
 
-  function runLoader(done) {
-    if (!loader) return done();
-    if (reduced) {
-      loader.classList.add('is-done');
-      return done();
+    if (!ecran) return surFin();
+
+    if (animationsReduites) {
+      ecran.classList.add('termine');
+      return surFin();
     }
 
-    let value = 0;
-    const tick = () => {
-      // progression irrégulière, plus lente vers la fin — ~1,3 s au total
-      value = Math.min(100, value + Math.random() * (value > 80 ? 7 : 18));
-      const shown = Math.floor(value);
-      loaderNum.textContent = shown;
-      loaderBar.style.width = shown + '%';
+    let progression = 0;
 
-      if (value < 100) {
-        setTimeout(tick, 38 + Math.random() * 62);
+    const avancer = () => {
+      progression = Math.min(100, progression + Math.random() * (progression > 80 ? 7 : 18));
+      const affiche = Math.floor(progression);
+      nombre.textContent = affiche;
+      barre.style.width = affiche + '%';
+
+      if (progression < 100) {
+        setTimeout(avancer, 38 + Math.random() * 62);
       } else {
         setTimeout(() => {
-          loader.classList.add('is-done');
-          done();
+          ecran.classList.add('termine');
+          surFin();
         }, 300);
       }
     };
-    tick();
+
+    avancer();
   }
 
-  /* -------------------------------------------------------
-     2. Curseur personnalisé (halo + point)
-     ------------------------------------------------------- */
-  function initCursor() {
-    const ring = $('#cursor');
-    const dot  = $('#cursorDot');
-    if (!ring || !dot || !finePointer || reduced) return;
+  function initCurseur() {
+    const cercle = selectionner('#curseur');
+    const point  = selectionner('#curseurPoint');
+    if (!cercle || !point || !pointeurPrecis || animationsReduites) return;
 
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let rx = mx, ry = my;
-    let visible = false;
+    let sourisX = window.innerWidth / 2;
+    let sourisY = window.innerHeight / 2;
+    let cercleX = sourisX;
+    let cercleY = sourisY;
+    let affiche = false;
 
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    window.addEventListener('mousemove', (evenement) => {
+      sourisX = evenement.clientX;
+      sourisY = evenement.clientY;
+      point.style.transform = `translate3d(${sourisX}px, ${sourisY}px, 0)`;
 
-      if (!visible) {
-        visible = true;
-        ring.classList.add('is-visible');
-        dot.classList.add('is-visible');
+      if (!affiche) {
+        affiche = true;
+        cercle.classList.add('actif');
+        point.classList.add('actif');
       }
     }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
-      visible = false;
-      ring.classList.remove('is-visible');
-      dot.classList.remove('is-visible');
+      affiche = false;
+      cercle.classList.remove('actif');
+      point.classList.remove('actif');
     });
 
-    // le cercle suit avec du retard : c'est ce décalage qui donne la traîne
-    (function loop() {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
-      requestAnimationFrame(loop);
-    })();
-
-    // états au survol
-    const setState = (el, on) => {
-      const kind = el.dataset.cursor;                 // "link" | "view"
-      ring.classList.toggle('is-' + kind, on);
+    const suivre = () => {
+      cercleX += (sourisX - cercleX) * 0.16;
+      cercleY += (sourisY - cercleY) * 0.16;
+      cercle.style.transform = `translate3d(${cercleX}px, ${cercleY}px, 0)`;
+      requestAnimationFrame(suivre);
     };
+    suivre();
 
-    $$('[data-cursor]').forEach((el) => {
-      el.addEventListener('mouseenter', () => setState(el, true));
-      el.addEventListener('mouseleave', () => setState(el, false));
+    selectionnerTous('[data-curseur]').forEach((element) => {
+      const etat = 'sur-' + element.dataset.curseur;
+      element.addEventListener('mouseenter', () => cercle.classList.add(etat));
+      element.addEventListener('mouseleave', () => cercle.classList.remove(etat));
     });
   }
 
-  /* -------------------------------------------------------
-     3. Révélations au scroll
-     ------------------------------------------------------- */
-  function initReveal() {
-    // le hero est animé par revealHero() à la fin du préchargeur
-    const targets = [
-      ...$$('.reveal'),
-      ...$$('[data-rule]'),
-      ...$$('.line__in')
-    ].filter((el) => !el.closest('.hero'));
+  function decalageDansListe(element) {
+    const liste = element.closest('.competences, .projets, .reseaux');
+    if (!liste) return 0;
+    const item = element.closest('li') || element;
+    return [...liste.children].indexOf(item) * 90;
+  }
 
-    if (reduced || !('IntersectionObserver' in window)) {
-      targets.forEach((el) => el.classList.add('is-in'));
+  function initApparitions() {
+    const cibles = [
+      ...selectionnerTous('.apparition'),
+      ...selectionnerTous('[data-separateur]'),
+      ...selectionnerTous('.ligne__interieur')
+    ].filter((element) => !element.closest('.accueil'));
+
+    if (animationsReduites || !('IntersectionObserver' in window)) {
+      cibles.forEach((element) => element.classList.add('visible'));
       return;
     }
 
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const delay = el.dataset.delay || stagger(el);
-        el.style.transitionDelay = delay + 'ms';
-        el.classList.add('is-in');
-        io.unobserve(el);
+    const observateur = new IntersectionObserver((entrees) => {
+      entrees.forEach((entree) => {
+        if (!entree.isIntersecting) return;
+        const element = entree.target;
+        element.style.transitionDelay = decalageDansListe(element) + 'ms';
+        element.classList.add('visible');
+        observateur.unobserve(element);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-    targets.forEach((el) => io.observe(el));
-
-    // décalage automatique entre frères d'une même liste
-    function stagger(el) {
-      const parent = el.closest('.services, .projects, .socials');
-      if (!parent) return 0;
-      const item = el.closest('li') || el;
-      return [...parent.children].indexOf(item) * 90;
-    }
+    cibles.forEach((element) => observateur.observe(element));
   }
 
-  // Titre + méta du hero : révélation enchaînée dès la fin du préchargeur
-  function revealHero() {
-    $$('.hero .line__in, .hero .reveal').forEach((el, i) => {
-      el.style.transitionDelay = (reduced ? 0 : 100 + i * 120) + 'ms';
-      el.classList.add('is-in');
+  function afficherAccueil() {
+    selectionnerTous('.accueil .ligne__interieur, .accueil .apparition').forEach((element, index) => {
+      element.style.transitionDelay = (animationsReduites ? 0 : 100 + index * 120) + 'ms';
+      element.classList.add('visible');
     });
   }
 
-  /* -------------------------------------------------------
-     4. Machine à écrire (rôles)
-     ------------------------------------------------------- */
-  function initTypewriter() {
-    const el = $('#typewriter');
-    if (!el) return;
+  function initRoleAnime() {
+    const zone = selectionner('#roleAnime');
+    if (!zone) return;
 
-    // TODO : vos intitulés — s'enchaînent en boucle sous le nom
     const roles = [
       'Développeur web',
       'HTML · CSS · JavaScript',
       'PHP & WordPress'
     ];
 
-    if (reduced) {
-      el.textContent = roles.join(' · ');
+    if (animationsReduites) {
+      zone.textContent = roles.join(' · ');
       return;
     }
 
-    const caret = document.createElement('span');
-    caret.className = 'caret';
-    const text = document.createElement('span');
-    el.append(text, caret);
+    const texte = document.createElement('span');
+    const curseurTexte = document.createElement('span');
+    curseurTexte.className = 'curseur-texte';
+    zone.append(texte, curseurTexte);
 
-    let i = 0, j = 0, deleting = false;
+    let indexRole = 0;
+    let lettres = 0;
+    let effacement = false;
 
-    (function type() {
-      const word = roles[i];
-      text.textContent = word.slice(0, j);
+    const ecrire = () => {
+      const role = roles[indexRole];
+      texte.textContent = role.slice(0, lettres);
 
-      let wait = deleting ? 34 : 62;
+      let attente = effacement ? 34 : 62;
 
-      if (!deleting && j === word.length) {
-        deleting = true;
-        wait = 1900;
-      } else if (deleting && j === 0) {
-        deleting = false;
-        i = (i + 1) % roles.length;
-        wait = 320;
+      if (!effacement && lettres === role.length) {
+        effacement = true;
+        attente = 1900;
+      } else if (effacement && lettres === 0) {
+        effacement = false;
+        indexRole = (indexRole + 1) % roles.length;
+        attente = 320;
       } else {
-        j += deleting ? -1 : 1;
+        lettres += effacement ? -1 : 1;
       }
 
-      setTimeout(type, wait);
-    })();
+      setTimeout(ecrire, attente);
+    };
+
+    ecrire();
   }
 
-  /* -------------------------------------------------------
-     5. Header : masquage, fond, lien actif
-     ------------------------------------------------------- */
-  function initHeader() {
-    const header = $('#header');
-    const links  = $$('.nav__link');
-    const sections = links
-      .map((a) => $(a.getAttribute('href')))
+  function initEntete() {
+    const entete = selectionner('#entete');
+    const menu   = selectionner('#menu');
+    const liens  = selectionnerTous('.menu__lien');
+    const sections = liens
+      .map((lien) => selectionner(lien.getAttribute('href')))
       .filter(Boolean);
 
-    let last = window.scrollY;
-    let ticking = false;
+    let dernierY = window.scrollY;
+    let enAttente = false;
 
-    const onScroll = () => {
+    const auDefilement = () => {
       const y = window.scrollY;
 
-      header.classList.toggle('is-solid', y > 40);
-      // on masque en descendant, on ré-affiche en remontant
-      header.classList.toggle('is-hidden', y > last && y > 300 && !$('#nav').classList.contains('is-open'));
-      last = y;
+      entete.classList.toggle('fond', y > 40);
+      entete.classList.toggle('masque', y > dernierY && y > 300 && !menu.classList.contains('ouvert'));
+      dernierY = y;
 
-      // section courante
-      const mid = y + window.innerHeight * 0.35;
-      let current = null;
-      sections.forEach((s) => { if (s.offsetTop <= mid) current = s; });
-
-      links.forEach((a) => {
-        a.classList.toggle('is-active', current && a.getAttribute('href') === '#' + current.id);
+      const milieu = y + window.innerHeight * 0.35;
+      let courante = null;
+      sections.forEach((section) => {
+        if (section.offsetTop <= milieu) courante = section;
       });
 
-      ticking = false;
+      liens.forEach((lien) => {
+        lien.classList.toggle('courant', courante && lien.getAttribute('href') === '#' + courante.id);
+      });
+
+      enAttente = false;
     };
 
     window.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(onScroll);
+      if (enAttente) return;
+      enAttente = true;
+      requestAnimationFrame(auDefilement);
     }, { passive: true });
 
-    onScroll();
+    auDefilement();
   }
 
-  /* -------------------------------------------------------
-     6. Menu mobile
-     ------------------------------------------------------- */
   function initMenu() {
-    const burger = $('#burger');
-    const nav    = $('#nav');
-    if (!burger || !nav) return;
+    const bouton = selectionner('#boutonMenu');
+    const menu   = selectionner('#menu');
+    if (!bouton || !menu) return;
 
-    const close = () => {
-      burger.classList.remove('is-open');
-      nav.classList.remove('is-open');
-      burger.setAttribute('aria-expanded', 'false');
-      burger.setAttribute('aria-label', 'Ouvrir le menu');
-      document.body.classList.remove('is-locked');
+    const fermer = () => {
+      bouton.classList.remove('ouvert');
+      menu.classList.remove('ouvert');
+      bouton.setAttribute('aria-expanded', 'false');
+      bouton.setAttribute('aria-label', 'Ouvrir le menu');
+      document.body.classList.remove('bloque');
     };
 
-    burger.addEventListener('click', () => {
-      const open = !nav.classList.contains('is-open');
-      burger.classList.toggle('is-open', open);
-      nav.classList.toggle('is-open', open);
-      burger.setAttribute('aria-expanded', String(open));
-      burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
-      document.body.classList.toggle('is-locked', open);
+    bouton.addEventListener('click', () => {
+      const ouvrir = !menu.classList.contains('ouvert');
+      bouton.classList.toggle('ouvert', ouvrir);
+      menu.classList.toggle('ouvert', ouvrir);
+      bouton.setAttribute('aria-expanded', String(ouvrir));
+      bouton.setAttribute('aria-label', ouvrir ? 'Fermer le menu' : 'Ouvrir le menu');
+      document.body.classList.toggle('bloque', ouvrir);
     });
 
-    $$('.nav__link', nav).forEach((a) => a.addEventListener('click', close));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    selectionnerTous('.menu__lien', menu).forEach((lien) => lien.addEventListener('click', fermer));
+    document.addEventListener('keydown', (evenement) => {
+      if (evenement.key === 'Escape') fermer();
+    });
   }
 
-  /* -------------------------------------------------------
-     7. Horloge + année
-     ------------------------------------------------------- */
-  function initClock() {
-    const year  = $('#year');
-    const clock = $('#clock');
-    if (year) year.textContent = new Date().getFullYear();
-    if (!clock) return;
+  function initHorloge() {
+    const annee = selectionner('#annee');
+    const heure = selectionner('#heure');
 
-    const fmt = new Intl.DateTimeFormat('fr-FR', {
+    if (annee) annee.textContent = new Date().getFullYear();
+    if (!heure) return;
+
+    const format = new Intl.DateTimeFormat('fr-FR', {
       hour: '2-digit', minute: '2-digit', second: '2-digit',
       hour12: false, timeZone: 'Europe/Paris'
     });
 
-    const tick = () => { clock.textContent = fmt.format(new Date()); };
-    tick();
-    setInterval(tick, 1000);
+    const afficher = () => { heure.textContent = format.format(new Date()); };
+    afficher();
+    setInterval(afficher, 1000);
   }
 
+  function initApercus() {
+    const liste = selectionner('.projets');
+    if (!liste || !pointeurPrecis) return;
 
-  /* -------------------------------------------------------
-     8. Aperçus de projets — l'image suit le curseur
-     ------------------------------------------------------- */
-  function initProjectPreviews() {
-    const list = $(".projects");
-    if (!list || !finePointer) return;   // sur mobile, le CSS place l'image dans le flux
+    liste.classList.add('avec-apercu');
 
-    list.classList.add("has-preview");
+    selectionnerTous('.projet', liste).forEach((projet) => {
+      const lien    = selectionner('.projet__lien', projet);
+      const capture = selectionner('.projet__capture', projet);
+      if (!lien || !capture) return;
 
-    $$(".project", list).forEach((item) => {
-      const link = $(".project__link", item);
-      const shot = $(".project__shot", item);
-      if (!link || !shot) return;
+      let sourisX = 0, sourisY = 0;
+      let imageX = 0, imageY = 0;
+      let enCours = false;
 
-      let x = 0, y = 0, tx = 0, ty = 0, running = false;
-
-      const follow = () => {
-        // même retard que le curseur : l'image traîne au lieu de coller
-        tx += (x - tx) * 0.14;
-        ty += (y - ty) * 0.14;
-        shot.style.left = tx + "px";
-        shot.style.top  = ty + "px";
-        if (running) requestAnimationFrame(follow);
+      const suivre = () => {
+        imageX += (sourisX - imageX) * 0.14;
+        imageY += (sourisY - imageY) * 0.14;
+        capture.style.left = imageX + 'px';
+        capture.style.top  = imageY + 'px';
+        if (enCours) requestAnimationFrame(suivre);
       };
 
-      link.addEventListener("mouseenter", (e) => {
-        x = tx = e.clientX;
-        y = ty = e.clientY;
-        shot.classList.add("is-visible");
-        if (!running) { running = true; requestAnimationFrame(follow); }
+      lien.addEventListener('mouseenter', (evenement) => {
+        sourisX = imageX = evenement.clientX;
+        sourisY = imageY = evenement.clientY;
+        capture.classList.add('actif');
+        if (!enCours) {
+          enCours = true;
+          requestAnimationFrame(suivre);
+        }
       });
 
-      link.addEventListener("mousemove", (e) => {
-        x = e.clientX;
-        y = e.clientY;
+      lien.addEventListener('mousemove', (evenement) => {
+        sourisX = evenement.clientX;
+        sourisY = evenement.clientY;
       }, { passive: true });
 
-      link.addEventListener("mouseleave", () => {
-        running = false;
-        shot.classList.remove("is-visible");
+      lien.addEventListener('mouseleave', () => {
+        enCours = false;
+        capture.classList.remove('actif');
       });
     });
   }
 
-  /* -------------------------------------------------------
-     9. Démarrage
-     ------------------------------------------------------- */
   document.addEventListener('DOMContentLoaded', () => {
-    initCursor();
-    initReveal();
-    initTypewriter();
-    initHeader();
+    initCurseur();
+    initApparitions();
+    initRoleAnime();
+    initEntete();
     initMenu();
-    initClock();
-    initProjectPreviews();
+    initHorloge();
+    initApercus();
 
-    runLoader(revealHero);
+    lancerChargement(afficherAccueil);
   });
 })();

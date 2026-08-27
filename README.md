@@ -44,7 +44,7 @@ Portfolio/
 ## Personnalisation
 
 L'intensité des halos se règle depuis les variables du bloc `:root`, en haut de
-`style.css` : `--glow-txt-s/m/l/xl` pour le texte, `--glow-line` pour les traits.
+`style.css` : `--halo-s/m/l/xl` pour le texte, `--halo-trait` pour les traits.
 
 ## Auteur
 
