@@ -2,7 +2,7 @@
 
 Mon site vitrine : présentation, parcours, compétences et réalisations.
 
-En ligne : *(à venir)*
+En ligne : **https://flaviencantinotti-ship-it.github.io/portfolio/**
 
 ## Le parti pris
 
