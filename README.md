@@ -2,7 +2,7 @@
 
 Mon site vitrine : présentation, parcours, compétences et réalisations.
 
-En ligne : **https://flaviencantinotti-ship-it.github.io/cv/**
+En ligne : **https://flaviencantinotti.github.io/cv/**
 
 ## Le parti pris
 
@@ -49,5 +49,5 @@ L'intensité des halos se règle depuis les variables du bloc `:root`, en haut d
 ## Auteur
 
 **Flavien Cantinotti** — développeur web
-[GitHub](https://github.com/flaviencantinotti-ship-it) ·
+[GitHub](https://github.com/flaviencantinotti) ·
 [LinkedIn](https://www.linkedin.com/in/flavien-cantinotti/)
