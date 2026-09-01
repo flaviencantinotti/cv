@@ -11,6 +11,3 @@ desktop.ini
 # Environnement
 .env
 *.log
-
-# Outils locaux
-.claude/
